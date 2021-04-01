@@ -1,3 +1,0 @@
-python yet_another_hs.py train --dataset=E:/hs_custom/main/dataset --weights=coco
-
-python3 hgg.py train --dataset=/Brain-Cancer-Detection-using-Pathological-Images/Mask-RCNN/hggImages --weights=coco
