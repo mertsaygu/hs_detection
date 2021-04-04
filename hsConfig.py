@@ -1,5 +1,4 @@
-from mrcnn import Config
-
+from mrcnn.config import Config
 class hsConfig(Config):
     NAME="HS"
     IMAGES_PER_GPU = 2

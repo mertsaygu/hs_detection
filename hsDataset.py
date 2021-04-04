@@ -1,6 +1,6 @@
 from mrcnn import utils
 import os
-import skimage
+import skimage.draw, skimage.io
 import numpy as np 
 
 class hsDataset(utils.Dataset):
@@ -87,11 +87,11 @@ class hsDataset(utils.Dataset):
             # the dataset we are using has 3 types of annotation type -> Polygon, Circle, Ellipse
             # In order to load mask we use skimage 
                 if p['name'] == 'polygon':
-                rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])            
+                    rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])            
                 elif p['name'] == 'circle':
-                rr, cc = skimage.draw.circle(p['cy'], p['cx'], p['r'])
+                    rr, cc = skimage.draw.circle(p['cy'], p['cx'], p['r'])
                 else:  # Ellipse
-                rr, cc = skimage.draw.ellipse(p['cy'], p['cx'], p['ry'], p['rx'], rotation=np.deg2rad(p['theta']))  
+                    rr, cc = skimage.draw.ellipse(p['cy'], p['cx'], p['ry'], p['rx'], rotation=np.deg2rad(p['theta']))  
                 
                 # Some labels may go outside of the image 
                 # If there is such label exists we need to fix it
@@ -108,7 +108,7 @@ class hsDataset(utils.Dataset):
     
     def image_reference(self, image_id):
         info = self.image_info[image_id]
-        if info["source"] = "HS":
+        if info["source"] == "HS":
             return info["path"]
         else:
             super(self.__class__,self).image_reference(image_id)
