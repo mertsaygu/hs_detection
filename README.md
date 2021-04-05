@@ -38,7 +38,7 @@ I will update this page when I got promising results.
 
 ## Sources
 
-1. [United Kingdom - National Healthcare System](www.nhs.uk/conditions/hidradenitis-suppurativa/)
+1. [United Kingdom - National Healthcare System](https://www.nhs.uk/conditions/hidradenitis-suppurativa/)
 2. [Hidradenitis Suppurativa Foundation](https://www.hs-foundation.org)
 3. [DermNet NZ](https://dermnetnz.org/topics/hidradenitis-suppurativa-severity-assessment/)
 4. [Mask RCNN](https://github.com/matterport/Mask_RCNN)
