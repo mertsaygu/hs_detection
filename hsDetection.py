@@ -1,12 +1,12 @@
 from mrcnn import model as modellib
+from mrcnn import utils
 from hsDataset import hsDataset
 from hsConfig import hsConfig
 import os
 from splashEffect import color_splash, detect_and_color_splash
 
 ROOT = os.getcwd()
-cfg = hsConfig()
-COCO_WEIGHTS_PATH = "/path/to/mask_rcnn_coco.h5"
+COCO_WEIGHTS_PATH = os.path.join(ROOT,"mrcnn","mask_rcnn_coco.h5")
 DEFAULT_LOGS_DIR = os.path.join(ROOT, "logs")
 
 
@@ -87,4 +87,56 @@ if __name__ == "__main__":
     print("Dataset: ", args.dataset)
     print("Logs: ", args.logs)
     
-     
+    #Configuration
+    if args.command == "train":
+        cfg = hsConfig()
+    else :
+        class InferenceConfig(hsConfig):
+            GPU_COUNT = 1
+            IMAGES_PER_GPU = 1
+        cfg = InferenceConfig()
+    cfg.display()
+    
+    # Model
+    if args.command == "train":
+        model = modellib.MaskRCNN(mode="training",
+                                  config = cfg,
+                                  model_dir=args.logs)
+    else :
+        modellib.MaskRCNN(mode="inference",
+                             config=cfg,
+                             model_dir=args.logs)  
+    
+    # Weights
+    if args.weights.lower() == "coco":
+        weigths_path = COCO_WEIGHTS_PATH
+        if not os.path.exists(COCO_WEIGHTS_PATH):
+            utils.download_trained_weights(COCO_WEIGHTS_PATH)
+    
+    elif args.weights.lower() == "last":
+        weigths_path = model.find_last()[1]
+    
+    elif args.weigths.lower() == "imagenet":
+        weigths_path = model.get_imagenet_weights()
+    
+    else:
+        weigths_path = args.weights
+        
+    # Load Weights
+    
+    if args.weights.lower() == "coco":
+        model.load_weights(weigths_path, by_name= True, 
+                           exclude= ["mrcnn_class_logits", "mrcnn_bbox_fc",
+            "mrcnn_bbox", "mrcnn_mask"])
+    else:
+        model.load_weights(weigths_path, by_name= True)
+        
+    if args.command == "train":
+        train(model)
+    elif args.command == "splash":
+        detect_and_color_splash(model, image_path=args.image,
+                                video_path=args.video)
+    else:
+        print("'{}' is not recognized."
+              "Use 'train' or 'splash'".format(args.command))
+    
