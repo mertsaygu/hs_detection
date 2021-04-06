@@ -76,6 +76,13 @@ if __name__ == "__main__":
                         metavar="Path or URL to video",
                         help="Video to applt the color splash effect on")
     
+    parser.add_argument("--augmentation",
+                        required= False,
+                        type= str2bool,
+                        const=True
+                        default=False
+                        help="\'True\' or \'False\'")
+    
     args = parser.parse_args()
     
     if args.command == "train":
