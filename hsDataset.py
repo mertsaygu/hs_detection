@@ -5,19 +5,20 @@ import numpy as np
 
 class hsDataset(utils.Dataset):
     def load_hsdata(self,dataset_dir, subset):
-        self.add_class("HS", 1, "Püstül")
-        self.add_class("HS", 2, "Komedon tekli")
-        self.add_class("HS", 3, "Komedon ikili")
-        self.add_class("HS", 4, "Nodül inflamatuvar")
-        self.add_class("HS", 5, "Apse")
-        self.add_class("HS", 6, "Nodül")
-        self.add_class("HS", 7, "Ülser")
-        self.add_class("HS", 8, "Skar hipertrofik")
-        self.add_class("HS", 9, "Fistül direne")
-        self.add_class("HS", 10, "Fistül")
-        self.add_class("HS", 11, "Skar atrofik")
-        self.add_class("HS", 12, "Komedon üçlü")
-        self.add_class("HS", 13, "Piyojenik granülozum")
+        self.add_class("HS", 1, 'Tunnel Draining')
+        self.add_class("HS", 2, 'Scar HT')
+        self.add_class("HS", 3, 'Abcess')
+        self.add_class("HS", 4, 'NoName')
+        self.add_class("HS", 5, 'Papule Inf')
+        self.add_class("HS", 6, 'Komedo One')
+        self.add_class("HS", 7, 'Ulcer')
+        self.add_class("HS", 8, 'Tunnel NonDraining')
+        self.add_class("HS", 9, 'Plaque NonInf')
+        self.add_class("HS", 10, 'Scar Atrophic')
+        self.add_class("HS", 11, 'Komedo Two')
+        self.add_class("HS", 12, 'Plaque Inf')
+        self.add_class("HS", 13, 'Pustule')
+        self.add_class("HS", 14, 'Nodule Inf')
         
         assert subset in ["train","val"]
         dataset_dir = os.path.join(dataset_dir,subset)
@@ -37,26 +38,28 @@ class hsDataset(utils.Dataset):
                 polygons = [r['shape_attributes'] for r in a['regions']] 
             objects = [s['region_attributes']['HS'] for s in a['regions']]
             print("objects:",objects)
-            name_dict = {"Püstül":1, "Komedon tekli":2,                                     
-                      "Komedon ikili":3,                                    
-                      "Nodül inflamatuvar":4,                               
-                      "Apse": 5,                                              
-                      "Nodül" : 6,                                            
-                      "Ülser": 7,                                             
-                      "Skar hipertrofik" : 8,                                 
-                      "Fistül direne" : 9,                                     
-                      "Fistül" : 10,                                           
-                      "Skar atrofik" : 11,                                     
-                      "Komedon üçlü" : 12,                                    
-                      "Piyojenik granülozum" : 13 
-                    }
+            name_dict = {
+                'Tunnel Draining': 1, 
+                'Scar HT': 2, 
+                'Abcess': 3, 
+                'NoName': 4, 
+                'Papule Inf': 5, 
+                'Komedo One': 6, 
+                'Ulcer': 7, 
+                'Tunnel NonDraining': 8, 
+                'Plaque NonInf': 9, 
+                'Scar Atrophic': 10, 
+                'Komedo Two': 11, 
+                'Plaque Inf': 12, 
+                'Pustule': 13, 
+                'Nodule Inf': 14
+                }
             # key = tuple(name_dict)
             num_ids = [name_dict[a] for a in objects]
      
             print("numids",num_ids)
             image_path = os.path.join(dataset_dir, a['filename'])
-            # image = skimage.io.imread(image_path)
-            image = skimage.io.imread(image_path, plugin='pil')
+            image = skimage.io.imread(image_path) # plugin = 'pil' rotates the vertical images to horizontal images which makes masks unusable 
             height, width = image.shape[:2]
 
             self.add_image(
@@ -86,7 +89,7 @@ class hsDataset(utils.Dataset):
             # Get indexes of pixels inside the polygon and set them to 1
             # the dataset we are using has 3 types of annotation type -> Polygon, Circle, Ellipse
             # In order to load mask we use skimage 
-                if p['name'] == 'polygon':
+                if p['name'] == 'polygon' or p['name'] == "polyline":
                     rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])            
                 elif p['name'] == 'circle':
                     rr, cc = skimage.draw.circle(p['cy'], p['cx'], p['r'])
