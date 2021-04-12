@@ -2,9 +2,12 @@ from mrcnn import utils
 import os
 import skimage.draw, skimage.io
 import numpy as np 
+import json
 
 class hsDataset(utils.Dataset):
+    
     def load_hsdata(self,dataset_dir, subset):
+       
         self.add_class("HS", 1, 'Tunnel Draining')
         self.add_class("HS", 2, 'Scar HT')
         self.add_class("HS", 3, 'Abcess')
@@ -28,14 +31,12 @@ class hsDataset(utils.Dataset):
         annotations = [a for a in annotations if a['regions']]
         
         for a in annotations:
-            # print(a)
-            # Get the x, y coordinaets of points of the polygons that make up
-            # the outline of each object instance. There are stores in the
-            # shape_attributes (see json format above)
+            
             if type(a['regions']) is dict:
                 polygons = [r['shape_attributes'] for r in a['regions'].values()]
             else:
                 polygons = [r['shape_attributes'] for r in a['regions']] 
+            
             objects = [s['region_attributes']['HS'] for s in a['regions']]
             print("objects:",objects)
             name_dict = {
@@ -71,19 +72,14 @@ class hsDataset(utils.Dataset):
                 num_ids=num_ids
                 )
         
-        def load_mask(self, image_id):
+    def load_mask(self, image_id):
             
-            image_info = self.image_info[image_id]
-            
-            if image_info["source"] != "HS":
-                return super(self.__class__,self).load_mask(image_id)
-            
-            info = self.image_info[image_id]
+        info = self.image_info[image_id]
         if info["source"] != "HS":
             return super(self.__class__, self).load_mask(image_id)
+        
         num_ids = info['num_ids']
-        mask = np.zeros([info["height"], info["width"], len(info["polygons"])],
-                        dtype=np.uint8)
+        mask = np.zeros([info["height"], info["width"], len(info["polygons"])], dtype=np.uint8)
         for i, p in enumerate(info["polygons"]):
             for i, p in enumerate(info["polygons"]):
             # Get indexes of pixels inside the polygon and set them to 1

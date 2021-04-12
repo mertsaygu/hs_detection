@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from mrcnn import utils, visualize
+from mrcnn.model import log 
 import time
 
 def get_ax(rows = 1, cols = 1, size = 16):
@@ -22,7 +23,7 @@ def visualise_annotations(dataset, n_instances= None):
         
         bbox = utils.extract_bboxes(mask)
         
-        print("image_id ", image_id, dataset_t.image_reference(image_id))
+        print("image_id ", image_id, dataset.image_reference(image_id))
         log("image", image)
         log("mask", mask)
         log("class_ids", class_ids)
@@ -45,7 +46,7 @@ def visualise_annotation_by_pos(dataset, position):
     
     bbox = utils.extract_bboxes(mask)
     
-    print("image_id ", image_id, dataset_t.image_reference(image_id))
+    print("image_id ", position, dataset.image_reference(position))
     log("image", image)
     log("mask", mask)
     log("class_ids", class_ids)
@@ -54,11 +55,10 @@ def visualise_annotation_by_pos(dataset, position):
     ax = get_ax(1)
     
     try:
-        visualize.display_instances(image, bbox, maks, class_ids, dataset.class_names, ax=ax)
+        visualize.display_instances(image, bbox, mask, class_ids, dataset.class_names, ax=ax)
     except ValueError:
         print("Image size and Mask size does not match")
-        
-        
+               
 def detectHS(directory, image_names, model, save=False):
     import os
     class_names = [
