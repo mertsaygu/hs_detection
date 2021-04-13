@@ -59,7 +59,7 @@ def visualise_annotation_by_pos(dataset, position):
     except ValueError:
         print("Image size and Mask size does not match")
                
-def detectHS(directory, image_names, model, save=False):
+def detectHS(model, directory, image_names, save=False):
     import os
     class_names = [
         'BG',
@@ -98,4 +98,38 @@ def detectHS(directory, image_names, model, save=False):
             
             save_path = img_path + "pred" + ".JPG"
             save_path = os.path.join(s_path, save_path)
+            plt.savefig(save_path)
+            
+def detectHS_from_hsdataset(model, dataset, n_instances = None, save = False, save_dir = None):
+    '''
+    model : Mask rcnn model
+    dataset : hsDataset object 
+    n_instances : the number of images that you want to detect hs tissue. Default is 'None' which means entire dataset.
+    save : Save option. Default 'False'. İf 'True' saves detection images to given path.
+    save_dir : If option save is 'True', Model saves the detection image to the given path. If given folder does not exist, raises an AssertionError 
+    '''
+    max_size = dataset.image_ids
+    if save:
+        assert save_dir != None, "Path cannot be 'None'. Please pass a valid save directory!"
+        assert os.path.exists(save_dir), f"'{save_dir}' does not exist in your file system! Please make sure that the save directory exists"
+        
+    if n_instances == None:
+        n_instances = max_size
+    else:
+        assert max_size >= n_instances, f"Dataset does not include {n_instances} images. You can try something in between [1-{max_size}]." 
+        assert n_instances != 0, "The number of instances can not be 0."
+    
+    for img_id in n_instances:
+        image = dataset.load_hsdata(img_id)
+        
+        result = model.detect([image], verbode = 1)
+        ax = get_ax(1)
+        r = result[0]
+        visualize.display_instances(image, r["rois"],r["masks"],r["class_ids"],
+                                    dataset.class_names,r["scores"], ax=ax,
+                                    title= "Prediction "+str(img_id+1))
+        if save:
+            timestr = time.strftime("%Y%m%dT%H%M%S")
+            save_name = str(img_id+1)+"_pred_"+timestr+".JPG"
+            save_path = os.path.join(save_dir,save_name)
             plt.savefig(save_path)
