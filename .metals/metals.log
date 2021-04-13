@@ -18,3 +18,4 @@ INFO: Unsupported notification method: $/setTraceNotification
 [0m2021.04.13 11:48:42 WARN  no build tool detected in workspace 'C:\Users\merts\OneDrive\Masaüstü\EyeZone\hs_detection'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
 Nis 13, 2021 12:37:56 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFO: Unsupported notification method: $/setTraceNotification
+[0m2021.04.13 12:47:20 INFO  shutting down Metals[0m
