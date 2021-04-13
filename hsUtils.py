@@ -9,6 +9,11 @@ def get_ax(rows = 1, cols = 1, size = 16):
     return ax
 
 def visualise_annotations(dataset, n_instances= None):
+    '''
+    dataset : hsDataset
+    n_instances : Number of images. Default is 'None'. When it is None takes entire dataset
+                n_instances must be in between 1 and the size of the dataset. 
+    '''
     if n_instances == None:
         size = len(dataset.image_ids)
     else:
@@ -37,7 +42,10 @@ def visualise_annotations(dataset, n_instances= None):
             print("Image size and Mask size does not match")
             
 def visualise_annotation_by_pos(dataset, position):
-    
+    '''
+    dataset : hsDataset
+    position : Index of the desired image
+    '''
     image = dataset.load_image(position)
     if image.shape[-1] == 4:
         image = image[..., :3]
@@ -59,8 +67,21 @@ def visualise_annotation_by_pos(dataset, position):
     except ValueError:
         print("Image size and Mask size does not match")
                
-def detectHS(model, directory, image_names, save=False):
+def detectHS(model, directory, image_names, save=False, save_dir = None):
+    '''
+    model : Mask rcnn model
+    directory : Folder that includes images to detect tissues on.
+    image_names : List of image names that are in the directory
+    save : Save option. Default 'False'
+    save_dir : Directory to save annotated images
+    '''
+    
     import os
+    
+    if save:
+        assert save_dir != None, "Save directory must be string, not 'None'"
+        assert os.path.exists(save_dir),f"'{save_dir}' does not exist in your file system! Please make sure that the save directory exists"
+    
     class_names = [
         'BG',
         'Tunnel Draining',
@@ -80,6 +101,7 @@ def detectHS(model, directory, image_names, save=False):
         ]
     
     for img_path in image_names:
+        assert img_path in os.listdir(directory),f"'{img_path}' is not in the given directory"
         image_path = os.path.join(directory, img_path)
         img = mpimg,imread(image_path)
         
