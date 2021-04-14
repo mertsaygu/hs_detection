@@ -21,7 +21,7 @@ def train(model):
     dataset_val.load_hsdata(args.dataset, "val")
     dataset_val.prepare()
     
-    if args.augmentation == "True":
+    if args.augmentation:
         augmentation = imgaug.augmenters.Sometimes(0.2, [
                         imgaug.augmenters.Fliplr(0.5),
                         imgaug.augmenters.GaussianBlur(sigma=(0.0, 0.5)),
@@ -79,8 +79,8 @@ if __name__ == "__main__":
     
     parser.add_argument("--augmentation",
                         required= False,
-                        default="False",
-                        help="\'True\' or \'False\'")
+                        action="store_true"
+                        help="Uses image augmentation when flag used")
     
     args = parser.parse_args()
     
