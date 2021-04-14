@@ -36,6 +36,11 @@ Dataset was provided and labeled by the collaborators who are trained medical do
 
 I will update this page when I got promising results.  
 
+
+```bash
+python hsTrain.py train --dataset=/path/to/dataset/ --weights=coco --augmentation
+```
+
 ## Sources
 
 1. [United Kingdom - National Healthcare System](https://www.nhs.uk/conditions/hidradenitis-suppurativa/)
