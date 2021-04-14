@@ -4,6 +4,7 @@ from hsDataset import hsDataset
 from hsConfig import hsConfig
 import os
 from splashEffect import color_splash, detect_and_color_splash
+import imgaug
 
 ROOT = os.getcwd()
 COCO_WEIGHTS_PATH = os.path.join(ROOT,"mrcnn","mask_rcnn_coco.h5")
@@ -20,7 +21,7 @@ def train(model):
     dataset_val.load_hsdata(args.dataset, "val")
     dataset_val.prepare()
     
-    if args.augmentation:
+    if args.augmentation == "True":
         augmentation = imgaug.augmenters.Sometimes(0.2, [
                         imgaug.augmenters.Fliplr(0.5),
                         imgaug.augmenters.GaussianBlur(sigma=(0.0, 0.5)),
@@ -78,9 +79,7 @@ if __name__ == "__main__":
     
     parser.add_argument("--augmentation",
                         required= False,
-                        type= str2bool,
-                        const=True
-                        default=False
+                        default="False",
                         help="\'True\' or \'False\'")
     
     args = parser.parse_args()
@@ -123,7 +122,7 @@ if __name__ == "__main__":
     elif args.weights.lower() == "last":
         weigths_path = model.find_last()[1]
     
-    elif args.weigths.lower() == "imagenet":
+    elif args.weights.lower() == "imagenet":
         weigths_path = model.get_imagenet_weights()
     
     else:
