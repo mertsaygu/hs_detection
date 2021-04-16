@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from mrcnn import utils, visualize
 from mrcnn.model import log 
-import time
+import time, os
 
 def get_ax(rows = 1, cols = 1, size = 16):
     _, ax = plt.subplots(rows, cols, figsize=(size*cols, size*rows))
@@ -76,7 +76,6 @@ def detectHS(model, directory, image_names, save=False, save_dir = None):
     save_dir : Directory to save annotated images
     '''
     
-    import os
     
     if save:
         assert save_dir != None, "Save directory must be string, not 'None'"
@@ -142,9 +141,9 @@ def detectHS_from_hsdataset(model, dataset, n_instances = None, save = False, sa
         assert n_instances != 0, "The number of instances can not be 0."
     
     for img_id in n_instances:
-        image = dataset.load_hsdata(img_id)
+        image = dataset.load_image(img_id)
         
-        result = model.detect([image], verbode = 1)
+        result = model.detect([image], verbose = 1)
         ax = get_ax(1)
         r = result[0]
         visualize.display_instances(image, r["rois"],r["masks"],r["class_ids"],

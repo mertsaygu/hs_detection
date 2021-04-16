@@ -23,3 +23,8 @@ INFO: Unsupported notification method: $/setTraceNotification
 [0m2021.04.14 01:42:53 INFO  time: initialize in 1.46s[0m
 [0m2021.04.14 01:42:57 WARN  Build server is not auto-connectable.[0m
 [0m2021.04.14 01:42:57 WARN  no build tool detected in workspace 'C:\Users\merts\OneDrive\Masaüstü\EyeZone\hs_detection'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.04.14 04:27:13 INFO  shutting down Metals[0m
+[0m2021.04.17 00:43:56 INFO  Started: Metals version 0.10.1 in workspace 'C:\Users\merts\OneDrive\Masaüstü\EyeZone\hs_detection' for client vscode 1.55.2.[0m
+[0m2021.04.17 00:43:58 INFO  time: initialize in 1.74s[0m
+[0m2021.04.17 00:44:02 WARN  Build server is not auto-connectable.[0m
+[0m2021.04.17 00:44:02 WARN  no build tool detected in workspace 'C:\Users\merts\OneDrive\Masaüstü\EyeZone\hs_detection'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
