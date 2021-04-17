@@ -28,3 +28,5 @@ INFO: Unsupported notification method: $/setTraceNotification
 [0m2021.04.17 00:43:58 INFO  time: initialize in 1.74s[0m
 [0m2021.04.17 00:44:02 WARN  Build server is not auto-connectable.[0m
 [0m2021.04.17 00:44:02 WARN  no build tool detected in workspace 'C:\Users\merts\OneDrive\Masaüstü\EyeZone\hs_detection'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+Nis 17, 2021 1:54:06 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification

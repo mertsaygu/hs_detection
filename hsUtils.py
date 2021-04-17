@@ -102,7 +102,7 @@ def detectHS(model, directory, image_names, save=False, save_dir = None):
     for img_path in image_names:
         assert img_path in os.listdir(directory),f"'{img_path}' is not in the given directory"
         image_path = os.path.join(directory, img_path)
-        img = mpimg,imread(image_path)
+        img = mpimg.imread(image_path)
         
         result = model.detect([img], verbose = 1)
         ax = get_ax(1)
