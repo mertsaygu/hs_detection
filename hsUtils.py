@@ -67,11 +67,11 @@ def visualise_annotation_by_pos(dataset, position):
     except ValueError:
         print("Image size and Mask size does not match")
                
-def detectHS(model, directory, image_names, save=False, save_dir = None):
+def detectHS(model, directory, image_names, save=False, save_dir = None, name_tag = None):
     '''
     model : Mask rcnn model
     directory : Folder that includes images to detect tissues on.
-    image_names : List of image names that are in the directory
+    image_names : List of image names that are in the directory example : ["1.JPG","2.JPG]...
     save : Save option. Default 'False'
     save_dir : Directory to save annotated images
     '''
@@ -113,7 +113,7 @@ def detectHS(model, directory, image_names, save=False, save_dir = None):
         if save:
             timestr = time.strftime("%Y%m%dT%H%M%S")
             
-            save_path = img_path + "_pred_"+timestr + ".JPG"
+            save_path = img_path.split(".")[0] + name_tag + "_pred_"+timestr + ".JPG"
             save_path = os.path.join(save_dir, save_path)
             plt.savefig(save_path)
             
