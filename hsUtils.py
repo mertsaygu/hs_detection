@@ -108,17 +108,13 @@ def detectHS(model, directory, image_names, save=False, save_dir = None):
         ax = get_ax(1)
         r = result[0]
         visualize.display_instances(img, r['rois'], r['masks'],r['class_ids'],
-                                    class_names,r1['scores'],ax = ax,
+                                    class_names,r['scores'],ax = ax,
                                     title="Prediction")
         if save:
-            
-            save_base = "/content/drive/MyDrive/dataset/"
             timestr = time.strftime("%Y%m%dT%H%M%S")
-            s_path = os.path.join(save_base,timestr)
-            os.mkdir(s_path)
             
-            save_path = img_path + "pred" + ".JPG"
-            save_path = os.path.join(s_path, save_path)
+            save_path = img_path + "_pred_"+timestr + ".JPG"
+            save_path = os.path.join(save_dir, save_path)
             plt.savefig(save_path)
             
 def detectHS_from_hsdataset(model, dataset, n_instances = None, save = False, save_dir = None):
